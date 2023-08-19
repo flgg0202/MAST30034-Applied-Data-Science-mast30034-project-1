@@ -134,3 +134,7 @@ data/raw/
 
 # OSX .DS_Store file
 .DS_Store
+
+_temporary/
+*.parquet
+
