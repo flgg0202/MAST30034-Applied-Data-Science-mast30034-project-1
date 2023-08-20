@@ -87,7 +87,7 @@ After consolidating the yellow taxi data from September 2022 to March 2023, we o
 
 To better investigate the distribution of various features and consequently filter out inappropriate data, I utilized the plotting capabilities of Pandas.
 
-Given the need for ample memory while working with Pandas and considering the extensive size of the original dataset, I sampled 5\$ of the data. The features I elected to visualize, due to their comprehensive representation, included: Trip Distance, Fare Amount, Average Speed, Time Duration, and Tip Amount. Through the generated boxplots, we identified outliers in each dataset. However, the overall data distribution was concentrated at lower values (refer to Figure 1a). Consequently, I computed the quantile for each feature, retaining only the data that fell within 1.5 IQR (see Figure 1b).
+Given the need for ample memory while working with Pandas and considering the extensive size of the original dataset, I sampled 5\% of the data. The features I elected to visualize, due to their comprehensive representation, included: Trip Distance, Fare Amount, Average Speed, Time Duration, and Tip Amount. Through the generated boxplots, we identified outliers in each dataset. However, the overall data distribution was concentrated at lower values (refer to Figure 1a). Consequently, I computed the quantile for each feature, retaining only the data that fell within 1.5 IQR (see Figure 1b).
 
 \begin{figure}[h]
     \centering
@@ -115,7 +115,7 @@ Applying this same approach to the entire dataset, I was left with 13,058,002 re
 \end{itemize}
 
 
-Regarding the NYPD data, the Borough Boundaries were provided in a JSON format, delineating geographical zones. I chose not to modify this file. As for the NYPD Complaint Data, since my study leans more towards the crime count in each zone rather than the specifics of the crime, I merely conducted NaN removal to ensure data reliability. From an initial count of 271,717 entries, I selected data from September 2022 to March 2023. Post NaN processing, I merged this with the data containing taxi zones. Ultimately, I grouped by LocationID, calculating the number of crimes corresponding to each location.
+Regarding the NYPD data, the Borough Boundaries were provided in a JSON format, delineating geographical zones. I chose not to modify this file. As for the NYPD Complaint Data, since my study focus more towards the crime count in each zone rather than the specifics of the crime, I merely conducted NaN removal to ensure data reliability. From an initial count of 271,717 entries, I selected data from September 2022 to March 2023. Post NaN processing, I merged this with the data containing taxi zones. Ultimately, I grouped by LocationID, calculating the number of crimes corresponding to each location.
 
 \subsection{Aggregation and Insights}
 
@@ -133,7 +133,7 @@ The final set of features retained for model training are:
 \section{Analysis and Geospatial Visualisation}
 \subsection{Pre-merge Analysis}
 
-From the pair plot(See Figure 2) of the TLC data, it was evident that there exists some level of positive correlation among fare, tip, and duration. Conversely, speed and duration appear to have a somewhat inverse relationship. These findings are consistent with our expectations when using taxis, with most data either following a normal distribution or being left-skewed. Yet, I observed that a significant portion of the tip amount data lies between \$0 and \$2. While there's some positive correlation of this distribution with other features, it largely appears random. Research indicates that taxi tips in New York typically range between 10\% and 20\% of the fare, and given the fare distribution, most fares are under \$20. Additionally, only tips made via credit cards are recorded; digital payment methods might prompt lower tip suggestions, such as \$1 to \$2. Considering these insights, I decided to identify more pronounced relationships with the tip from other features.
+From the pair plot(See Figure 2) of the TLC data, it was clear to see that there exists some level of positive correlation among fare, tip, and duration. Conversely, speed and duration appear to have a somewhat inverse relationship. These findings are consistent with our expectations when using taxis, with most data either following a normal distribution or being left-skewed. Yet, I observed that a significant portion of the tip amount data lies between \$0 and \$2. While there's some positive correlation of this distribution with other features, it largely appears random. Research indicates that taxi tips in New York typically range between 10\% and 20\% of the fare, and given the fare distribution, most fares are under \$20. Additionally, only tips made via credit cards are recorded; digital payment methods might prompt lower tip suggestions, such as \$1 to \$2. Considering these insights, I decided to identify more pronounced relationships with the tip from other features.
 \begin{figure}[h]
     \includegraphics[width=0.6\textwidth]{plots/pair plot.png}
     \centering
@@ -206,7 +206,7 @@ average tip & 0.43353124 &  \\
     \centering
     \caption{RF} 
 \end{figure}
-To evaluate the model, I employed the Mean Squared Error (MSE). MSE provides an intuitive understanding of the magnitude of model errors. A lower MSE typically indicates better model performance. Additionally, I utilized feature importance to gauge the significance of each feature. As shown in Table 1, the model's MSE is 0.0162398741, suggesting that our model has a commendable predictive capacity. From Figure 6, it's evident that our model's predictions align closely with the actual values. Nevertheless, a glance at t1 reveals that both 'LocationID' and 'crime count' have rather low importance, implying that there seems to be no significant correlation between tip rate, location, and crime count.
+To evaluate the model, I employed the Mean Squared Error (MSE). MSE provides an intuitive understanding of the magnitude of model errors. A lower MSE typically indicates better model performance. Additionally, I utilized feature importance to gauge the significance of each feature. As shown in Table 1, the model's MSE is 0.0162398741, suggesting that our model has a commendable predictive capacity. From Figure 6, it's evident that our model's predictions align closely with the actual values. Nevertheless, a glance at t1 reveals that both 'LocationID' and 'crime count' have low importance, implying that there seems to be no significant correlation between tip rate, location, and crime count.
 
 
 \subsection{GB}
@@ -239,11 +239,11 @@ From the performance of the two models and our research into the data, we find t
 
 Meanwhile,since the tip rate doesn't notably shift due to varying crime counts, I recommend taxi drivers to avoid areas with high crime rates, such as the boundary between Brooklyn and Queens, as well as the interface of Manhattan and the Bronx. Prioritizing personal safety is paramount. If areas with high crime rates neither enhance nor ensure consistent earnings, it is prudent to steer clear of those areas.
 
-However, as noted in Section 3, Staten Island boasts generally higher tip rates coupled with an exceptionally low crime rate. This trend could be attributed to its relatively smaller size and less mature public transportation system, making the taxi service more sought-after. Yet, upon studying locations in Staten Island, I observed that most are tourist attractions and are considerably distanced from the main city. Therefore, spending a substantial amount of time daily in this region isn't advisable. Nonetheless, I strongly recommend drivers to allocate a portion of their mornings or afternoons to serve Staten Island. Doing so might not only sidestep the rush hours but also promise substantial earnings.
+However, as noted in Section 3, Staten Island boasts generally higher tip rates coupled with an exceptionally low crime rate. This trend could be attributed to its relatively smaller size and less mature public transportation system, making the taxi service more sought-after. Yet, upon studying locations in Staten Island, I observed that most are tourist attractions and are considerably distanced from the main city like beach, museum. Therefore, spending a substantial amount of time daily in this region isn't advisable. Nonetheless, I strongly recommend drivers to allocate a portion of their mornings or afternoons to serve Staten Island. Doing so might not only sidestep the rush hours but also promise substantial earnings.
 \section{Conclusion}
-In this report, we sought to identify regions in New York where taxi drivers can earn the highest income while ensuring their safety. By analyzing data from two models, we cannot definitively link crime counts to tip rates. However, areas like Staten Island, which are both safe and lucrative, are undoubtedly worthy of consideration by drivers. Our research also suggests that recklessly venturing into high-crime areas is unwise, and drivers should prioritize their safety above all.
+In this report, we aim to identify regions in New York where taxi drivers can earn the highest income while ensuring their safety. By analyzing data from two models, we cannot definitively link crime counts to tip rates. However, areas like Staten Island, which are both safe and lucrative, are undoubtedly worthy of consideration by drivers. Our research also suggests that recklessly venturing into high-crime areas is unwise, and drivers should prioritize their safety above all.
 
-Through this investigation, I urge the government to pay serious attention to the rising crime rates and address the root causes. I firmly believe that with further research into more samples in the future, we can build a safer and more prosperous metropolis.
+Through this investigation, I suggest the government to pay serious attention to the rising crime rates and address the root causes. I firmly believe that with further research into more samples in the future, we can build a safer and more prosperous metropolis.
 \clearpage
 
 
